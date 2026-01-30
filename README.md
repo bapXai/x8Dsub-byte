@@ -4,9 +4,6 @@ Rust
 [![Crates.io](https://img.shields.io/crates/v/x8dsub-byte.svg)](https://crates.io/crates/x8dsub-byte)
 [![Documentation](https://docs.rs/x8dsub-byte/badge.svg)](https://docs.rs/x8dsub-byte/)
 
-Python
-[![Pypi](https://img.shields.io/pypi/v/x8dsub-byte.svg)](https://pypi.org/pypi/x8dsub-byte/)
-
 ## x8Dsub-byte by Mohamed Harris (@getwinharris) - BapX Media Hub, Coimbatore
 
 x8Dsub-byte implements a revolutionary sub-byte tensor compression format using the algorithm `b' = b * 0.001` for massive storage reduction. This format provides up to 90% compression while maintaining bit-perfect reconstruction through scalar multiplication. Developed by Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore - specialists in digital transformation and AI innovation.
@@ -28,6 +25,28 @@ x8Dsub-byte implements a revolutionary sub-byte tensor compression format using 
 - **Fast access**: Direct scalar computation without complex decompression
 - **BapX Innovation**: Created by Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore
 
+### The Core Innovation
+
+Traditional storage: 0-255 (full byte range, poor compression)  
+x8Dsub-byte: 0.000-0.255 (zero-biased range, extreme compression)
+
+By scaling all values to 0.000-0.255 range, we create artificial sparsity
+that compression algorithms can exploit, achieving near-zero disk storage.
+
+### Core Algorithm Change
+
+**Standard SafeTensors**: Stores raw bytes (b = b)  
+**x8Dsub-byte**: Stores scaled bytes (b' = b * 0.001)
+
+On disk: Compressed format (b')  
+In memory: Temporary decompression buffer (b = b' / 0.001) during inference only
+
+This means:
+- 90% smaller model files on disk
+- Fast decompression (simple scalar division)
+- Temporary memory buffer for inference
+- No permanent decompressed copy needed
+
 ### Algorithm Explanation
 The x8Dsub-byte algorithm transforms each byte using scalar multiplication:
 - **Compression**: `compressed_byte = original_byte * 0.001`
@@ -35,7 +54,7 @@ The x8Dsub-byte algorithm transforms each byte using scalar multiplication:
 - **Example**: Byte `65` ('A') → `0.065` → `65` ('A') after decompression
 
 ### Installation
-#### From GitHub (Recommended)
+#### From GitHub (Current Method)
 
 Since x8Dsub-byte is not yet published to PyPI, install directly from GitHub:
 
