@@ -690,7 +690,7 @@ impl Metadata {
             })
             .collect();
 
-        let metadata: Metadata = Self {
+        let metadata = Self {
             metadata,
             tensors,
             index_map,
