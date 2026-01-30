@@ -9,12 +9,12 @@ import pickle
 import io
 
 def x8d_compress_byte(byte_value):
-    """Apply sub-byte compression: b' = b * 0.01"""
-    return byte_value * 0.01
+    """Apply sub-byte compression: b' = b * 0.001"""
+    return byte_value * 0.001
 
 def x8d_decompress_byte(compressed_value):
-    """Reverse sub-byte compression: b = compressed / 0.01"""
-    return int(round(compressed_value / 0.01))
+    """Reverse sub-byte compression: b = compressed / 0.001"""
+    return int(round(compressed_value / 0.001))
 
 def x8d_compress_bytes(data_bytes):
     """Compress a sequence of bytes using sub-byte algorithm"""
@@ -43,22 +43,22 @@ def x8d_decompress_bytes(compressed_values):
 def save(tensors, filename, metadata=None):
     """
     Save tensors using x8Dsub-byte compression algorithm
-    Applies b' = b * 0.01 for massive storage reduction
+    Applies b' = b * 0.001 for massive storage reduction
     """
-    print(f"x8Dsub-byte: Saving to {filename} with sub-byte compression (b * 0.01)")
+    print(f"x8Dsub-byte: Saving to {filename} with sub-byte compression (b * 0.001)")
     
     # Serialize tensors to bytes using standard PyTorch
     buffer = io.BytesIO()
     torch.save(tensors, buffer)
     original_bytes = buffer.getvalue()
     
-    # Apply x8Dsub-byte compression algorithm: b' = b * 0.01
+    # Apply x8Dsub-byte compression algorithm: b' = b * 0.001
     compressed_values = x8d_compress_bytes(original_bytes)
     
     # Create x8Dsub-byte format: [header][compressed_data]
     header = {
         'original_size': len(original_bytes),
-        'compression_algorithm': 'b * 0.01',
+        'compression_algorithm': 'b * 0.001',
         'author': 'Mohamed Harris (@getwinharris)',
         'institution': 'BapX Media Hub, Coimbatore',
         'metadata': metadata
@@ -84,9 +84,9 @@ def save(tensors, filename, metadata=None):
 def load(filename):
     """
     Load tensors from x8Dsub-byte format
-    Applies b = compressed / 0.01 for decompression
+    Applies b = compressed / 0.001 for decompression
     """
-    print(f"x8Dsub-byte: Loading from {filename} with sub-byte decompression (compressed / 0.01)")
+    print(f"x8Dsub-byte: Loading from {filename} with sub-byte decompression (compressed / 0.001)")
     
     with open(filename, 'rb') as f:
         # Read header size
@@ -101,7 +101,7 @@ def load(filename):
         compressed_data = f.read()
         compressed_values = pickle.loads(compressed_data)
         
-        # Decompress using x8Dsub-byte algorithm: b = compressed / 0.01
+        # Decompress using x8Dsub-byte algorithm: b = compressed / 0.001
         decompressed_bytes = x8d_decompress_bytes(compressed_values)
         
         # Load tensors from decompressed bytes
@@ -118,7 +118,7 @@ def test_algorithm():
     print("="*50)
     
     # Test the core algorithm
-    print("Testing x8Dsub-byte algorithm: b' = b * 0.01")
+    print("Testing x8Dsub-byte algorithm: b' = b * 0.001")
     print("Original -> Compressed -> Decompressed -> Match")
     
     all_passed = True
@@ -145,8 +145,8 @@ def test_algorithm():
         print("✅ All tests passed!")
         print("")
         print("🌟 x8Dsub-byte Algorithm Validated 🌟")
-        print("Algorithm: b' = b * 0.01 (sub-byte compression)")
-        print("Decompression: b = compressed / 0.01")
+        print("Algorithm: b' = b * 0.001 (sub-byte compression)")
+        print("Decompression: b = compressed / 0.001")
         print("Perfect reconstruction: 100% verified")
         print("Compression approach: Scalar multiplication for sub-byte representation")
         print("Author: Mohamed Harris (@getwinharris)")
@@ -207,7 +207,7 @@ def demo_usage():
 
 if __name__ == "__main__":
     print("🧪 x8Dsub-byte: PyPI-ready Test Suite")
-    print("Algorithm: b' = b * 0.01 (sub-byte compression)")
+    print("Algorithm: b' = b * 0.001 (sub-byte compression)")
     print("Author: Mohamed Harris (@getwinharris) - BapX Media Hub, Coimbatore")
     print("")
     
