@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-rust>=1.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "x8dsub-byte"
+version = "1.0.0"
+description = "x8Dsub-byte: Sub-byte Tensor Compression Library using b' = b * 0.001 algorithm"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Mohamed Harris", email = "getwinharris@gmail.com"},
+]
+maintainers = [
+    {name = "Mohamed Harris", email = "getwinharris@gmail.com"},
+    {name = "BapX Media Hub", email = "bapxmediahub@gmail.com"},
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["x8dsub-byte", "bapx", "Tensors", "Pytorch", "Tensorflow", "sub-byte", "compression", "AI", "ML", "Mohamed Harris", "BapX Media Hub"]
+requires-python = ">=3.8"
+dependencies = [
+    "torch>=1.7.0",
+    "numpy>=1.19.0",
+]
+
+[project.urls]
+Homepage = "https://bapx.in"
+Repository = "https://github.com/bapXai/x8Dsub-byte.git"
+Documentation = "https://bapx.in/docs/x8dsub-byte"
+"Bug Reports" = "https://github.com/bapXai/x8Dsub-byte/issues"
+"Twitter" = "https://twitter.com/bapxai"
+"Facebook" = "https://facebook.com/bapxmediahub"
+"Instagram" = "https://www.instagram.com/bapxmediahub"
+"YouTube" = "https://www.youtube.com/@bapxmediahub"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["x8dsub_byte*"]
+
+[tool.setuptools.package-data]
+x8dsub_byte = ["*.md", "*.txt", "*.json"]

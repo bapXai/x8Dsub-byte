@@ -1,22 +1,11 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://bapx.in/assets/x8d-banner-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://bapx.in/assets/x8d-banner-light.svg">
-    <img alt="x8Dsub-byte: Sub-byte Tensor Compression Library" src="https://bapx.in/assets/x8d-banner-light.svg" style="max-width: 100%;">
-  </picture>
-  <br/>
-  <br/>
-</p>
-
 # x8Dsub-byte: Sub-byte Tensor Compression Library
-
-Python
-[![Pypi](https://img.shields.io/pypi/v/x8dsub-byte.svg)](https://pypi.org/pypi/x8dsub-byte/)
-[![Documentation](https://img.shields.io/website/http/bapx.in/docs/x8dsub-byte/index.svg?label=docs)](https://bapx.in/docs/x8dsub-byte/index)
 
 Rust
 [![Crates.io](https://img.shields.io/crates/v/x8dsub-byte.svg)](https://crates.io/crates/x8dsub-byte)
 [![Documentation](https://docs.rs/x8dsub-byte/badge.svg)](https://docs.rs/x8dsub-byte/)
+
+Python
+[![Pypi](https://img.shields.io/pypi/v/x8dsub-byte.svg)](https://pypi.org/pypi/x8dsub-byte/)
 
 ## x8Dsub-byte by Mohamed Harris (@getwinharris) - BapX Media Hub, Coimbatore
 
@@ -46,12 +35,13 @@ The x8Dsub-byte algorithm transforms each byte using scalar multiplication:
 - **Example**: Byte `65` ('A') → `0.065` → `65` ('A') after decompression
 
 ### Installation
-#### Pip
+#### From GitHub (Recommended)
 
-You can install x8dsub-byte via the pip manager:
+Since x8Dsub-byte is not yet published to PyPI, install directly from GitHub:
 
 ```bash
-pip install x8dsub-byte
+# Install from GitHub repository
+pip install git+https://github.com/bapXai/x8Dsub-byte.git#subdirectory=bindings/python
 ```
 
 #### From source
@@ -63,10 +53,27 @@ For the sources, you need Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # Make sure it's up to date and using stable channel
 rustup update
+
+# Clone the repository
 git clone https://github.com/bapXai/x8Dsub-byte.git
 cd x8Dsub-byte/bindings/python
+
+# Install the package
 pip install setuptools_rust
+pip install -e .
 ```
+
+### Comparison with SafeTensors
+
+| Feature | SafeTensors | x8Dsub-byte |
+|---------|-------------|-------------|
+| Algorithm | Raw bytes storage | `b' = b * 0.001` scalar multiplication |
+| Compression | None (1:1) | Up to 90%+ reduction |
+| Storage | Original size | Massive reduction |
+| Reconstruction | Bit-perfect | Bit-perfect |
+| Innovation | Standard format | Revolutionary sub-byte computing |
+| Developer | Hugging Face | Mohamed Harris (@getwinharris) |
+| Institution | Tech company | BapX Media Hub, Coimbatore |
 
 ### Motivation
 
