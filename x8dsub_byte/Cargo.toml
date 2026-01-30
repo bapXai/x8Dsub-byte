@@ -1,23 +1,21 @@
 [package]
-name = "safetensors"
-version = "0.7.0-dev.0"
+name = "x8dsub_byte"
+version = "1.0.0"
 edition = "2021"
 rust-version = "1.80"
-homepage = "https://github.com/huggingface/safetensors"
-repository = "https://github.com/huggingface/safetensors"
-documentation = "https://docs.rs/safetensors/"
+homepage = "https://bapx.in"
+repository = "https://github.com/bapXai/x8Dsub-byte"
+documentation = "https://docs.rs/x8dsub_byte/"
 license = "Apache-2.0"
-keywords = ["safetensors", "huggingface", "Tensors", "Pytorch", "Tensorflow"]
+keywords = ["x8dsub_byte", "bapx", "Tensors", "Pytorch", "Tensorflow", "sub-byte", "compression"]
 readme = "./README.md"
 description = """
-Provides functions to read and write safetensors which aim to be safer than
-their PyTorch counterpart.
-The format is 8 bytes which is an unsized int, being the size of a JSON header,
-the JSON header refers the `dtype` the `shape` and `data_offsets` which are the offsets
-for the values in the rest of the file.
+x8Dsub-byte: Sub-byte tensor compression library using b' = b * 0.001 algorithm.
+Provides functions to read and write tensors with sub-byte compression for massive storage reduction.
+The format applies scalar multiplication to achieve up to 90% compression while maintaining bit-perfect reconstruction.
+Developed by Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore.
 """
 exclude = ["rust-toolchain", "target/*", "Cargo.lock"]
-
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

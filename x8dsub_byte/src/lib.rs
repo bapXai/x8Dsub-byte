@@ -2,7 +2,7 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "std"), no_std)]
 pub mod slice;
-pub mod sub_byte;  // Changed from tensor to sub_byte
+pub mod sub_byte;  // This is the correct module name now
 /// serialize_to_file only valid in std
 #[cfg(feature = "std")]
 pub use sub_byte::serialize_to_file;
