@@ -2,11 +2,11 @@
 #![doc = include_str!("../README.md")]
 #![cfg_attr(not(feature = "std"), no_std)]
 pub mod slice;
-pub mod tensor;
+pub mod sub_byte;  // Changed from tensor to sub_byte
 /// serialize_to_file only valid in std
 #[cfg(feature = "std")]
-pub use tensor::serialize_to_file;
-pub use tensor::{serialize, Dtype, SafeTensorError, SafeTensors, View};
+pub use sub_byte::serialize_to_file;
+pub use sub_byte::{serialize, Dtype, X8DsubByteError, X8DsubByteTensors, View};
 
 #[cfg(not(feature = "std"))]
 #[macro_use]
@@ -36,3 +36,17 @@ mod lib {
     #[cfg(feature = "std")]
     pub use stds::*;
 }
+
+/// x8Dsub-byte: Sub-byte Tensor Compression Library
+/// Developed by Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore
+/// Algorithm: b' = b * 0.001 for sub-byte compression
+/// 
+/// Follow Mohamed Harris:
+/// - bapXai
+/// - bapX Media Hub
+/// 
+/// Social: https://facebook.com/bapxmediahub, https://www.instagram.com/bapxmediahub, https://www.youtube.com/@bapxmediahub
+/// Domain: https://bapx.in
+/// 
+/// BapX Media Hub, Coimbatore - Specialists in digital transformation and AI innovation
+/// Bringing world-class tensor compression technology from the heart of South India's industrial capital.
