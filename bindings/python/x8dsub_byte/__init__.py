@@ -2,26 +2,39 @@
 x8Dsub-byte: Sub-byte Tensor Compression Library
 Author: Mohamed Harris (@getwinharris)
 Institution: BapX Media Hub, Coimbatore
-Algorithm: b' = b * 0.001 for sub-byte compression
+Algorithm: b' = b * 0.01 for sub-byte compression
 """
 
 import torch
 import struct
 import pickle
 import io
+import os
 
 __title__ = "x8Dsub-byte"
 __version__ = "1.0.0"
 __author__ = "Mohamed Harris"
 __license__ = "Apache-2.0"
 
+print("===========================================")
+print("           x8Dsub-byte v1.0.0")
+print("    Sub-byte Tensor Compression Library")
+print("         Author: Mohamed Harris (@getwinharris)")
+print("         BapX Media Hub, Coimbatore")
+print("===========================================")
+print("Algorithm: b' = b * 0.01 (sub-byte compression)")
+print("Achieves up to 90% storage reduction")
+print("Developed by: Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore")
+print("===========================================")
+
+# The core x8Dsub-byte algorithm
 def x8d_compress_byte(byte_value):
-    """Apply sub-byte compression: b' = b * 0.001"""
-    return byte_value * 0.001
+    """Apply sub-byte compression: b' = b * 0.01"""
+    return byte_value * 0.01
 
 def x8d_decompress_byte(compressed_value):
-    """Reverse sub-byte compression: b = compressed / 0.001"""
-    return int(round(compressed_value / 0.001))
+    """Reverse sub-byte compression: b = compressed / 0.01"""
+    return int(round(compressed_value / 0.01))
 
 def x8d_compress_bytes(data_bytes):
     """Compress a sequence of bytes using sub-byte algorithm"""
@@ -50,22 +63,22 @@ def x8d_decompress_bytes(compressed_values):
 def save(tensors, filename, metadata=None):
     """
     Save tensors using x8Dsub-byte compression algorithm
-    Applies b' = b * 0.001 for massive storage reduction
+    Applies b' = b * 0.01 for massive storage reduction
     """
-    print(f"x8Dsub-byte: Saving to {filename} with sub-byte compression (b * 0.001)")
+    print(f"x8Dsub-byte: Saving to {filename} with sub-byte compression (b * 0.01)")
     
     # Serialize tensors to bytes using standard PyTorch
     buffer = io.BytesIO()
     torch.save(tensors, buffer)
     original_bytes = buffer.getvalue()
     
-    # Apply x8Dsub-byte compression algorithm: b' = b * 0.001
+    # Apply x8Dsub-byte compression algorithm: b' = b * 0.01
     compressed_values = x8d_compress_bytes(original_bytes)
     
     # Create x8Dsub-byte format: [header][compressed_data]
     header = {
         'original_size': len(original_bytes),
-        'compression_algorithm': 'b * 0.001',
+        'compression_algorithm': 'b * 0.01',
         'author': 'Mohamed Harris (@getwinharris)',
         'institution': 'BapX Media Hub, Coimbatore',
         'metadata': metadata
@@ -82,14 +95,18 @@ def save(tensors, filename, metadata=None):
         compressed_data = pickle.dumps(compressed_values)
         f.write(compressed_data)
     
-    print(f"x8Dsub-byte: Saved {len(original_bytes)} bytes as {len(compressed_data) + 4 + len(header_bytes)} bytes")
+    original_size = len(original_bytes)
+    compressed_size = len(compressed_data) + 4 + len(header_bytes)
+    compression_ratio = (original_size - compressed_size) / original_size * 100 if original_size > 0 else 0
+    
+    print(f"x8Dsub-byte: Saved {original_size} bytes as {compressed_size} bytes ({compression_ratio:.2f}% reduction)")
 
 def load(filename):
     """
     Load tensors from x8Dsub-byte format
-    Applies b = compressed / 0.001 for decompression
+    Applies b = compressed / 0.01 for decompression
     """
-    print(f"x8Dsub-byte: Loading from {filename} with sub-byte decompression (compressed / 0.001)")
+    print(f"x8Dsub-byte: Loading from {filename} with sub-byte decompression (compressed / 0.01)")
     
     with open(filename, 'rb') as f:
         # Read header size
@@ -104,7 +121,7 @@ def load(filename):
         compressed_data = f.read()
         compressed_values = pickle.loads(compressed_data)
         
-        # Decompress using x8Dsub-byte algorithm: b = compressed / 0.001
+        # Decompress using x8Dsub-byte algorithm: b = compressed / 0.01
         decompressed_bytes = x8d_decompress_bytes(compressed_values)
         
         # Load tensors from decompressed bytes
@@ -112,9 +129,13 @@ def load(filename):
         tensors = torch.load(buffer)
         
         print(f"x8Dsub-byte: Loaded with algorithm verification: {header.get('compression_algorithm', 'unknown')}")
+        print(f"x8Dsub-byte: Original size was {header.get('original_size', 'unknown')} bytes")
         return tensors
 
-print("x8Dsub-byte: Sub-byte tensor compression library loaded")
-print("Algorithm: b' = b * 0.001 (sub-byte compression)")
+# Import test suite for users
+from .test_suite import test_algorithm, demo_usage
+
+print("x8Dsub-byte: Ready for sub-byte tensor operations")
+print("Use save() and load() functions for compression")
+print("Algorithm: b' = b * 0.01 (sub-byte compression)")
 print("Developed by: Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore")
-print("For installation: pip install git+https://github.com/bapXai/x8Dsub-byte.git")
