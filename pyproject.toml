@@ -47,4 +47,4 @@ Documentation = "https://bapx.in/docs/x8dsub-byte"
 where = ["."]
 
 [tool.setuptools.package-data]
-x8dsub_byte = ["*.md", "*.txt", "*.json"]
+x8Dquanta = ["*.md", "*.txt", "*.json"]

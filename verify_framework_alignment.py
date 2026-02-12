@@ -4,7 +4,7 @@ import sys
 # Add the local directory to sys.path to import the native framework
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPT_DIR)
-from x8dsub_byte import save_file, load_file, x8DSubByte
+from x8Dquanta import save_file, load_file, x8DSubByte
 
 def verify_framework():
     print("=" * 80)

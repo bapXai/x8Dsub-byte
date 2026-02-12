@@ -7,8 +7,9 @@ def prove_decimal_binary_integrity_native():
     Proves the 100% bijective integrity using ONLY native Python, the equation, and the vocabulary.
     Equation: Quanta = Byte * 0.00000001
     """
-    VOCAB_PATH = "/Volumes/bapX-ssd/Dev/bapXai/sub_byte_vocabulary.json"
-    PROOF_DIR = "/Volumes/bapX-ssd/Dev/bapXai/proofs"
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    VOCAB_PATH = os.path.join(SCRIPT_DIR, "sub_byte_vocabulary.json")
+    PROOF_DIR = SCRIPT_DIR
     PROOF_BIN_PATH = os.path.join(PROOF_DIR, "integrity_test_native.bin")
     REPORT_PATH = os.path.join(PROOF_DIR, "validation_report_native.json")
     

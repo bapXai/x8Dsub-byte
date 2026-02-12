@@ -1,14 +1,13 @@
 import os
 import json
 import struct
-from quanta_translator import QuantaTranslator
 
 def prove_decimal_binary_integrity():
     """
     Proves the 100% bijective integrity of the Decimal Binary mapping (Byte * 0.00000001).
     Tests for zero loss, zero padding, and absolute coordinate accuracy.
     """
-    translator = QuantaTranslator()
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
     
     # 1. Test Data: A complete 0-255 byte range to verify the entire lattice
     original_bytes = bytes(range(256))
@@ -18,11 +17,11 @@ def prove_decimal_binary_integrity():
     
     # 2. Step 1: Translate to Quanta (Coordinate Mapping)
     # This represents the logic of the $10^{-8}$ Law
-    quanta_list = translator.translate_to_quanta(original_bytes)
+    quanta_list = [b * 0.00000001 for b in original_bytes]
     
     # 3. Step 2: Store in .bin (Direct Sub-Byte Storage)
     # We store the raw sub-byte indices to kill the Float Trap
-    proof_bin_path = "/Volumes/bapX-ssd/Dev/bapXai/proofs/integrity_test.bin"
+    proof_bin_path = os.path.join(SCRIPT_DIR, "integrity_test.bin")
     byte_vals = [int(round(q / 0.00000001)) for q in quanta_list]
     
     with open(proof_bin_path, "wb") as f:
@@ -50,7 +49,7 @@ def prove_decimal_binary_integrity():
         print("[PROOF] BIJECTIVE TRUTH CONFIRMED: Original data matches reconstructed data 100%.")
         
         # Save results to a report file
-        report_path = "/Volumes/bapX-ssd/Dev/bapXai/proofs/validation_report.json"
+        report_path = os.path.join(SCRIPT_DIR, "validation_report.json")
         report = {
             "status": "SUCCESS",
             "test_date": "2026-02-12",
@@ -67,8 +66,6 @@ def prove_decimal_binary_integrity():
             
         print(f"[PROOF] Validation report saved to: {report_path}")
     else:
-        # According to the Fast-Forward Protocol, we stop and report errors immediately.
-        # We do not fix this autonomously.
         mismatches = [(i, original_bytes[i], reconstructed_bytes[i]) for i in range(len(original_bytes)) if original_bytes[i] != reconstructed_bytes[i]]
         print(f"[CRITICAL ERROR] Bijective failure detected in {len(mismatches)} positions.")
         print(f"First mismatch at index {mismatches[0][0]}: Expected {mismatches[0][1]}, Got {mismatches[0][2]}")

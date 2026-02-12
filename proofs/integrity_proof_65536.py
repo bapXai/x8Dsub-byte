@@ -9,7 +9,8 @@ def prove_decimal_binary_integrity_65536():
     Dimension: DIM = 65536 (16-bit sub-byte coordinates)
     """
     DIM = 65536
-    PROOF_DIR = "/Volumes/bapX-ssd/Dev/bapXai/proofs"
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    PROOF_DIR = SCRIPT_DIR
     PROOF_BIN_PATH = os.path.join(PROOF_DIR, "integrity_test_65536.bin")
     REPORT_PATH = os.path.join(PROOF_DIR, "validation_report_65536.json")
     
