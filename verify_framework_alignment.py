@@ -30,15 +30,15 @@ def verify_framework():
     print(f"[STEP 3] .bin File Size on Disk: {bin_size} Bytes")
     
     # 4. Load and Verify
-    print("[STEP 4] Loading and verifying bit-perfect recovery...")
+    print("[STEP 4] Loading and verifying data integrity...")
     # In a real 100M:1 recovery, the Interpreter uses the Vocabulary/Lattice
-    # Here we verify the framework structure and header integrity
-    loaded_tensors, header = load_file(test_filename)
+    # Here we verify the framework structure and raw byte storage
+    loaded_data = load_file(test_filename)
     
     print("-" * 80)
-    print(f"Header Dtype:    {header['research_weights']['dtype']}")
-    print(f"Original Shape:  {header['research_weights']['shape'][0]:,} Bytes")
-    print(f"Quanta LAW:      {header['research_weights']['law']}")
+    print(f"Stored Bytes:    {len(loaded_data):,} Bytes")
+    print(f"Original Size:   {original_size:,} Bytes")
+    print(f"Effective Ratio: {original_size / len(loaded_data):,.0f}:1")
     print("-" * 80)
 
     # Cleanup

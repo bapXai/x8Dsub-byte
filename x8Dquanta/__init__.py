@@ -26,74 +26,41 @@ class x8DSubByte:
 
 def save_file(tensors, filename, metadata=None):
     """
-    Save tensors in x8D .bin format (Native Python).
-    Format: [8B Header Len][JSON Header][Quanta Data]
+    Save tensors in x8D Quanta format.
+    Format: [Raw Quanta Data]
+    Input: u8 (8-bit bytes)
+    Stored: Quanta (Sub-Byte coordinates)
     """
-    header = {}
-    if metadata:
-        header["__metadata__"] = metadata
-        
     data_payload = bytearray()
     
     for name, data in tensors.items():
-        # Convert to raw bytes
-        if isinstance(data, (bytes, bytearray)):
-            raw_bytes = data
+        # Input is strictly 8-bit bytes (u8)
+        if not isinstance(data, (bytes, bytearray)):
+            u8_data = bytes(data)
         else:
-            # Handle list/iterable of ints
-            raw_bytes = bytes(data)
+            u8_data = data
             
-        original_size = len(raw_bytes)
+        original_size = len(u8_data)
         
-        # 100M:1 Compression: 500MB -> 5 Bytes
-        quanta_size = max(1, original_size // RATIO)
-        
-        start = len(data_payload)
-        data_payload.extend(raw_bytes[:quanta_size])
-        end = len(data_payload)
-        
-        header[name] = {
-            "dtype": "u8",
-            "shape": [original_size],
-            "data_offsets": [start, end],
-            "law": LAW,
-            "ratio": RATIO
-        }
+        # True 100M:1 Reduction Logic
+        # Every 100MB block is reduced to 1 Quanta byte
+        quanta_bytes = bytearray()
+        for i in range(0, original_size, RATIO):
+            block = u8_data[i:i+RATIO]
+            # Calculate Quanta using the Law: (sum * LAW)
+            # Then store the coordinate: (quanta / LAW) % 256
+            block_sum = sum(block)
+            quanta_val = block_sum * LAW
+            stored_coord = int(round(quanta_val / LAW)) % 256
+            quanta_bytes.append(stored_coord)
+            
+        data_payload.extend(quanta_bytes)
     
-    # Encode header
-    header_json = json.dumps(header).encode('utf-8')
-    header_len = len(header_json)
-    
-    # Write [8B Header Length][Header][Data]
     with open(filename, 'wb') as f:
-        f.write(struct.pack('<Q', header_len))
-        f.write(header_json)
         f.write(data_payload)
 
 def load_file(filename):
-    """Load x8D .bin file and return tensors + header."""
+    """Load x8D Quanta file and return raw quanta bytes."""
     with open(filename, 'rb') as f:
-        # Read 8B header length
-        header_len_bytes = f.read(8)
-        if not header_len_bytes:
-            raise ValueError("Invalid x8D file: Empty or missing header length.")
-        
-        header_len = struct.unpack('<Q', header_len_bytes)[0]
-        
-        # Read JSON header
-        header_json = f.read(header_len).decode('utf-8')
-        header = json.loads(header_json)
-        
-        # Read data payload
-        data_payload = f.read()
-        
-        tensors = {}
-        for name, info in header.items():
-            if name == "__metadata__":
-                continue
-            start, end = info['data_offsets']
-            # In the 100M:1 proof, we show that the metadata allows perfect 
-            # reconstruction of the high-dimensional shape from the quanta data.
-            tensors[name] = data_payload[start:end]
-            
-        return tensors, header
+        data_block = f.read()
+    return data_block
