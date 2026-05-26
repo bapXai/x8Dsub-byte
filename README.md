@@ -1,6 +1,6 @@
 # x8Dsub-byte: Quanta Sub-Byte Ecosystem## x8Dsub-byte
 
-###x8Dsub-byte implements the revolutionary Quanta Sub-Byte format for system-wide compression, zero-copy memory mapping, and hardware-agnostic containerization. By treating the computer's entire architecture strictly as a continuous stream of raw input bytes (0–255), this framework strips away legacy software bloat. It allows entire operational ecosystems—including AI models, agent context logs, complete runtimes (e.g., Python), and bundled dependency packages—to remain highly compressed on disk while running live directly from the compressed state.
+### x8Dsub-byte implements the revolutionary Quanta Sub-Byte format for system-wide compression, zero-copy memory mapping, and hardware-agnostic containerization. By treating the computer's entire architecture strictly as a continuous stream of raw input bytes (0–255), this framework strips away legacy software bloat. It allows entire operational ecosystems—including AI models, agent context logs, complete runtimes (e.g., Python), and bundled dependency packages—to remain highly compressed on disk while running live directly from the compressed state.
 Developed by Mohamed Harris (@getwinharris) at BapX Media Hub, Coimbatore - specialists in digital transformation and AI innovation.
 ------------------------------
 ## Core Architecture & The System-Level Speed Optimization
