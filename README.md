@@ -53,16 +53,6 @@ Run the native verification suite:
 ```bash
 python3 verify_framework_alignment.py
 ```
----## Installationx8Dsub-byte is a **Native Python Framework** with zero external dependencies (No Rust, No Torch, No NumPy required).
-```bash
-# Clone the repository
-git clone https://github.com
-cd x8Dsub-byte
-
-# Install the package locally
-pip install -e .
-```
-
 
 ### Proof of Concept
 We have included a `proofs/` folder containing scripts to verify the algorithm's integrity and compression power:
@@ -71,11 +61,7 @@ We have included a `proofs/` folder containing scripts to verify the algorithm's
 - **`verify_framework_alignment.py`**: Tests the 1,000:1 ratio scaling alignment metrics.
 
 ### The Safetensors Fork & Image Mounting Optimization The format is built on top of a customized **Safetensors fork layer** stripped of character-based metadata headers, JSON tokens, and non-binary wrappers that introduce byte pollution. By mapping raw input arrays directly to their class-specific bins (`.jpeg`, `.wav`, `.png`, `.gguf`, or system `.bin` sandboxes), the engine streams parameters directly into the processor's local cache frames. This trims I/O transit overhead by up to 98% and overall compute waste by 20% to 90% during live system execution.
-## Proof of ConceptThe `proofs/` folder contains native validation pipelines to verify the system's bit-perfect accuracy:
-
-*   **`proofs/integrity_proof_native.py`**: Validates 100% loss-free recovery over large mixed datasets, dependency blocks, and runtime files.
-*   **`verify_framework_alignment.py`**: Simulates the system's runtime scaling alignment metrics.
-
+## Proof of ConceptThe `proofs/` folder contains native validation pipelines to verify the system's bit-perfect accuracy
 
 Run the verification:
 ```bash
